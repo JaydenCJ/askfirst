@@ -1,0 +1,29 @@
+# Example askfirst policy for a small ops/agent fleet.
+# Evaluated top to bottom; the first matching rule decides.
+# Reference: docs/policy.md
+
+# --- always safe -----------------------------------------------------
+# Read-only lookups never need review, whoever asks.
+allow action:fs.read
+allow action:search.*
+allow action:db.query mode=readonly
+
+# --- never allowed ---------------------------------------------------
+# Hard denials come before broader allows so nothing can shadow them.
+deny action:shell.exec command~"rm\s+-rf" reason:"destructive command"
+deny action:db.query mode=readwrite table~"^(users|payments)$" reason:"PII tables are hands-off"
+deny action:mail.send to~"@(?:gmail|yahoo)\." reason:"external personal addresses"
+
+# --- scoped auto-approval --------------------------------------------
+# Trusted CI agents may deploy to staging without a human.
+allow action:deploy.run agent:ci-* env=staging
+# Small refunds are routine; the boundary itself (50) goes to a human.
+allow action:payments.refund amount<50
+
+# --- explicit review queues ------------------------------------------
+ask action:deploy.run env=prod reason:"production deploys need a second pair of eyes"
+ask action:payments.refund reason:"refund above the auto-approve limit"
+
+# --- fallthrough ------------------------------------------------------
+# Unknown actions wait for a human rather than failing open.
+default ask

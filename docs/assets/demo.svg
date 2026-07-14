@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="456" viewBox="0 0 980 456" font-family="Menlo, Consolas, monospace" font-size="13">
+  <rect width="980" height="456" rx="10" fill="#101418"/>
+  <circle cx="24" cy="22" r="6" fill="#ff5f56"/>
+  <circle cx="44" cy="22" r="6" fill="#ffbd2e"/>
+  <circle cx="64" cy="22" r="6" fill="#27c93f"/>
+  <text x="490" y="27" fill="#8b949e" text-anchor="middle" font-size="12">askfirst — policies auto-approve the safe, humans review the rest</text>
+  <g fill="#c9d1d9">
+    <text x="24" y="62"><tspan fill="#7ee787">$</tspan> askfirst submit --agent billing-bot --action payments.refund --param amount=25</text>
+    <text x="24" y="84"><tspan fill="#7ee787">approved</tspan> af-mrie1wq5-c818ac65 — policy (line 14): allow action:payments.refund amount&lt;50</text>
+    <text x="24" y="118"><tspan fill="#7ee787">$</tspan> askfirst submit --agent ops-bot --action shell.exec --param "command=rm -rf /"</text>
+    <text x="24" y="140"><tspan fill="#f85149">denied</tspan> af-mrie1wqg-2b9d417c — policy (line 11): deny action:shell.exec command~"rm\s+-rf" reason:"destructive command"</text>
+    <text x="24" y="174"><tspan fill="#7ee787">$</tspan> askfirst submit --agent billing-bot --action payments.refund --param amount=1200 --param order=8812</text>
+    <text x="24" y="196"><tspan fill="#e3b341">pending</tspan> af-mrie1wqb-1c67c58c — queued for human review: refund above the auto-approve limit</text>
+    <text x="24" y="218" fill="#8b949e">decide with: askfirst approve af-mrie1wqb-1c67c58c   (or: askfirst deny af-mrie1wqb-1c67c58c)</text>
+    <text x="24" y="252"><tspan fill="#7ee787">$</tspan> askfirst list</text>
+    <text x="24" y="276" fill="#d2a8ff">ID                    CREATED              AGENT        ACTION           STATUS   PARAMS</text>
+    <text x="24" y="298">af-mrie1wqb-1c67c58c  2026-07-12 22:52:08  billing-bot  payments.refund  <tspan fill="#e3b341">pending</tspan>  {"amount":1200,"order":8812}</text>
+    <text x="24" y="320" fill="#8b949e">1 pending request</text>
+    <text x="24" y="354"><tspan fill="#7ee787">$</tspan> askfirst approve af-mrie1wqb-1c67c58c --reason "verified with finance"</text>
+    <text x="24" y="376"><tspan fill="#7ee787">approved</tspan> af-mrie1wqb-1c67c58c — human (verified with finance)</text>
+    <text x="24" y="410" fill="#8b949e">exit codes: <tspan fill="#7ee787">0 approved</tspan> · <tspan fill="#f85149">1 denied</tspan> · 2 usage · 3 runtime · <tspan fill="#e3b341">4 pending</tspan></text>
+    <text x="24" y="432" fill="#8b949e">offline · loopback-only API · append-only audit log</text>
+  </g>
+</svg>
